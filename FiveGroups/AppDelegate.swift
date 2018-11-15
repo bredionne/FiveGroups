@@ -12,10 +12,25 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var navigationVC:UINavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //set current date
+        let date = "\(Date())"
+        let endOfDate = date.index(of: " ")!
+        let dateNoTime = date[...endOfDate]
+        print(dateNoTime)
+        
+        //if date is different from last time the app was launched, reset the UserDefaults
+        //this will reset the food group values for a new day
+        if (UserDefaults.standard.object(forKey: "date") != nil) {
+            if UserDefaults.standard.string(forKey: "date")! != dateNoTime {
+                UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+                UserDefaults.standard.set(dateNoTime, forKey: "date")
+            }
+        }
+        
         return true
     }
 
